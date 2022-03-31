@@ -41,4 +41,6 @@ class loopback (Command):
         )
     def execute(self, message, attachment_actions, activity):
         a = message
-        
+        direccion = a.split(sep=',')
+        print (direccion)
+        return direccion
