@@ -2,13 +2,13 @@ from webex_bot.models.command import Command
 import json
 import requests
 
-api_url = "https://sandbox-iosxe-recomm-1.cisco.com/restconf/data/ietf-interfaces:interfaces"
+api_url = "https://192.168.1.99/restconf/data/ietf-interfaces:interfaces"
 
 headers = { "Accept": "application/yang-data+json",
  "Content-type":"application/yang-data+json"
  }
 
-basicauth = ("developer", "C1sco12345")
+basicauth = ("cisco", "cisco123!")
 
 
 class Hola(Command):
