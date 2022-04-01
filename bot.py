@@ -14,6 +14,6 @@ bot.add_command(Menu())
 bot.add_command(CambiarNombre())
 bot.add_command(CrearLoopback())
 bot.add_command(VerInterfces())
-#bot.add_command(opcion2())
+bot.add_command(BorrarLoopback())
 
 bot.run()

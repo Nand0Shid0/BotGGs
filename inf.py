@@ -13,7 +13,7 @@ headers = { "Accept": "application/yang-data+json",
 }
 basicauth = ("cisco", "cisco123!")
 
-#Clase menu
+############################MENU############################
 
 class Menu(Command):
     def __init__(self):
@@ -42,8 +42,7 @@ class Menu(Command):
 
 
 
-
-#Clases para configuracion
+############################Cambiar Nombre############################
 
 class CambiarNombre(Command):
     def __init__(self):
@@ -56,10 +55,8 @@ class CambiarNombre(Command):
         datos = message.split()
         print(datos)
 
-
-        ip = datos[1]
         n = datos[0]
-        m = manager.connect(host=str(ip),port=830,username="cisco",password="cisco123!",hostkey_verify=False)
+        m = manager.connect(host='172.16.100.97',port=830,username="cisco",password="cisco123!",hostkey_verify=False)
         netconf_hostname = """
         <config>
         <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
@@ -71,7 +68,7 @@ class CambiarNombre(Command):
         print(xml.dom.minidom.parseString(netconf_reply.xml).toprettyxml())
 
 
-
+############################Crear Loopbacks############################
 class CrearLoopback(Command):
     def __init__(self):
         super().__init__(
@@ -81,12 +78,11 @@ class CrearLoopback(Command):
         datos_loopback = message.split()
         print(datos_loopback)
 
-        ip_router = datos_loopback[3]
         name = datos_loopback[0]
         ip = datos_loopback[1]
         mask = datos_loopback[2]
 
-        m = manager.connect(host=str(ip_router),port=830,username="cisco",password="cisco123!",hostkey_verify=False)
+        m = manager.connect(host='172.16.100.97',port=830,username="cisco",password="cisco123!",hostkey_verify=False)
 
         netconf_newloop = """
         <config>
@@ -111,7 +107,22 @@ class CrearLoopback(Command):
         netconf_reply = m.edit_config(target="running", config=netconf_newloop)
         print(xml.dom.minidom.parseString(netconf_reply.xml).toprettyxml())
 
+############################ELIMINAR LOOPBACK############################
 
+class BorrarLoopback(Command):
+    def __init__(self):
+        super().__init__(
+            command_keyword="borrar_loopback",
+        )
+    def execute(self, message, attachment_actions, activity):
+        deloop = message
+        c = deloop.split()
+        print (c)
+        resp =  requests.delete('https://172.16.100.97/restconf/data/ietf-interfaces:interfaces/interface='f'{c[0]}', auth=basicauth, headers=headers, verify=False)
+        return deloop + "fue borrada exitosamente"
+
+
+############################Ver Interfaces############################
 class VerInterfces(Command):
     def __init__(self):
         super().__init__(
@@ -120,17 +131,12 @@ class VerInterfces(Command):
     def execute(self, message, attachment_actions, activity):
         datos_loopback = message.split()
         print(datos_loopback)
-
-        ip_router = datos_loopback[0]
         
-
         requests.packages.urllib3.disable_warnings()
-        api_url = "https://"+str(ip_router)+"/restconf/data/ietf-interfaces:interfaces"
-        headers = { "Accept": "application/yang-data+json",
-        "Content-type":"application/yang-data+json"
-        }
-        basicauth = ("cisco", "cisco123!")
+        api_url = "https://172.16.100.97/restconf/data/ietf-interfaces:interfaces"
+        
         resp = requests.get(api_url, auth=basicauth, headers=headers, verify=False)
         print(resp)
         response_json = resp.json()
-        print(json.dumps(response_json, indent=4))
+        a =json.dumps(response_json, indent=4)
+        return a
