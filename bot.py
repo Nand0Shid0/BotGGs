@@ -6,6 +6,7 @@ bot = WebexBot ('ODQwMTVmYjUtMjFkYy00Y2Q3LTgyMDMtODhjZGFhMWVmZDdhYmMxZmNmNTQtZTA
 #bot.add_command(Interfaces())
 bot.add_command(Hola())
 bot.add_command(CrearLoopback())
+bot.add_command(CambiarNombre())
 
 
 
