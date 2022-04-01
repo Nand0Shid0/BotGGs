@@ -17,53 +17,82 @@ def filtro():
 	return print(xml.dom.minidom.parseString(netconf_reply.xml).toprettyxml())
 
 def Nombre():
-	name = input(str("ingresa el nuevo hostname: "))
-	m = manager.connect(host="192.168.0.17",port=830,username="cisco",password="cisco123!",hostkey_verify=False)
+	#name = input(str("ingresa el nuevo hostname: "))
+	m = manager.connect(host="192.168.0.23",port=830,username="cisco",password="cisco123!",hostkey_verify=False)
 
 	netconf_hostname = """
 	<config>
 	<native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-	<hostname>"""+name+"""</hostname>
+	<command>"""+"do show ip int brief"+"""</command>
 	</native>
 	</config>
 	"""
-	netconf_reply = m.edit_config(target="running", config=netconf_hostname)
+	netconf_reply = m.edit_config(target="command", config=netconf_hostname)
 	print(xml.dom.minidom.parseString(netconf_reply.xml).toprettyxml())
 
 def crear_loopback():
 
-	#x = input(str("ingresa numero de loopback: "))
-	#ip = input(str("ingresa direccion ip la de loopback: "))
-	#mask = input(str("ingresa mascara de loopback: "))
+	x = input(str("ingresa numero de loopback: "))
+	ip = input(str("ingresa direccion ip la de loopback: "))
+	mask = input(str("ingresa mascara de loopback: "))
 
-	m = manager.connect(host="192.168.0.17",port=830,username="cisco",password="cisco123!",hostkey_verify=False)
+	m = manager.connect(host="192.168.0.23",port=830,username="cisco",password="cisco123!",hostkey_verify=False)
 
 
-	netconf_loopback = """
+	netconf_newloop = """
 	<config>
-	native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native"
-	<interface>
-	<Loopback>
-	<name>"""+"25"+"""</name>
-	<description>Prueba</description>
-	<ip>
-	<address>
-	<primary>
-	<address>"""+"172.16.100.25"+"""</address>
-	<mask>"""+"255.255.255.0"+"""</mask>
-	</primary>
-	</address>
-	</ip>
-	</Loopback>
-	</interface>
-	</native>
+	 <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+	  <interface>
+	   <Loopback>
+	    <name>"""+x+"""</name>
+	    <description>prueba</description>
+	    <ip>
+	     <address>
+	      <primary>
+	       <address>"""+ip+"""</address>
+	       <mask>"""+mask+"""</mask>
+	      </primary>
+	     </address>
+	    </ip>
+	   </Loopback>
+	  </interface>
+	 </native>
 	</config>
 	"""
-	netconf_reply = m.edit_config(target="running", config=netconf_loopback)
+	netconf_reply = m.edit_config(target="running", config=netconf_newloop)
 	print(xml.dom.minidom.parseString(netconf_reply.xml).toprettyxml())
 
-Nombre()
+def borrar_loopback():
+	x = input(str("ingresa numero de loopback: "))
+	m = manager.connect(host="192.168.0.23",port=830,username="cisco",password="cisco123!",hostkey_verify=False)
 
+	netconf_borrar_loopback ="""
+	<config>
+	 <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+	  <interface>
+	   <Loopback>
+	    <name>"""+x+"""</name>
+	    <description></description>
+	    <ip>
+	     <address>
+	      <primary>
+	       <address></address>
+	       <mask></mask>
+	      </primary>
+	     </address>
+	    </ip>
+	   </Loopback>
+	  </interface>
+	 </native>
+	</config>
+	"""
+	netconf_reply = m.edit_config(target="running", config=netconf_borrar_loopback)
+	print(xml.dom.minidom.parseString(netconf_reply.xml).toprettyxml())
+
+
+Nombre()
+#crear_loopback()
+#borrar_loopback()
 
 
 
