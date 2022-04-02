@@ -32,9 +32,9 @@ class Menu(Command):
         **Cambiar nombre a un dispositivo**
 
         Para usar esta opcion tienes que escribir: 
-        Cambiar nombre + nuevo nombre del dispositivo + ip del dispositivo
+        Cambiar nombre + nuevo nombre del dispositivo
             
-        Ejemplo: Cambiar nombre R2 192.168.0.23
+        Ejemplo: Cambiar nombre R2 
 
         **Crear loopback en un dispositivo.**
 
