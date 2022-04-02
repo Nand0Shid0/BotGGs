@@ -4,14 +4,15 @@ from click import command
 from webex_bot.models.command import Command
 import json
 import requests
-
-
 requests.packages.urllib3.disable_warnings()
+
+direccion_equipo = "192.168.0.23"
+credenciales = ["cisco","cisco123!"]
 
 headers = { "Accept": "application/yang-data+json",
  "Content-type":"application/yang-data+json"
 }
-basicauth = ("cisco", "cisco123!")
+basicauth = (credenciales[0], credenciales[1])
 
 ############################MENU############################
 
@@ -28,21 +29,39 @@ class Menu(Command):
          de lo que puedo hacer, escribe el numero de la opcion que quieras
          usar:
 
-            **Cambiar nombre a un dispositivo**
+        **Cambiar nombre a un dispositivo**
 
-            Con esta opcion podras renombrar a un router, las credenciales ya
-            fueron introducidas con anterioridad.
-
-            Para usar esta opcion tienes que escribir: Cambiar nombre + nuevo nombre del dispositivo + ip del dispositivo
+        Para usar esta opcion tienes que escribir: 
+        Cambiar nombre + nuevo nombre del dispositivo + ip del dispositivo
             
-            Ejemplo: Cambiar nombre R2 192.168.0.23       
-        
+        Ejemplo: Cambiar nombre R2 192.168.0.23
+
+        **Crear loopback en un dispositivo.**
+
+        Para usar esta opcion tienes que escribir:
+        Crear loopback + numero de loopback + direccion ip de la loopback + submasck de la loopback.
+
+        Ejemplo: Crear loopback 150 192.168.100.15 255.255.255.0     
+
+        **Borrar loopback en un dispositivo.**
+
+        Para usar esta opcion tienes que escribir:
+        Borrar loopback + numero de la loopback
+
+        Ejemplo: Borrar loopback 150
+
+        **Mostrar interfaces de un dispositivo.
+
+        Para usar esta opcion tienes que escribir: Ver interfaces
+
         """
         return mensaje
 
 
 
 ############################Cambiar Nombre############################
+
+
 
 class CambiarNombre(Command):
     def __init__(self):
@@ -56,7 +75,7 @@ class CambiarNombre(Command):
         print(datos)
 
         n = datos[0]
-        m = manager.connect(host='172.16.100.97',port=830,username="cisco",password="cisco123!",hostkey_verify=False)
+        m = manager.connect(host=direccion_equipo,port=830,username=credenciales[0],password=credenciales[1],hostkey_verify=False)
         netconf_hostname = """
         <config>
         <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
@@ -82,7 +101,7 @@ class CrearLoopback(Command):
         ip = datos_loopback[1]
         mask = datos_loopback[2]
 
-        m = manager.connect(host='172.16.100.97',port=830,username="cisco",password="cisco123!",hostkey_verify=False)
+        m = manager.connect(host=direccion_equipo,port=830,username=credenciales[0],password=credenciales[1],hostkey_verify=False)
 
         netconf_newloop = """
         <config>
@@ -112,14 +131,15 @@ class CrearLoopback(Command):
 class BorrarLoopback(Command):
     def __init__(self):
         super().__init__(
-            command_keyword="borrar_loopback",
+            command_keyword="borrar loopback".lower(),
         )
     def execute(self, message, attachment_actions, activity):
         deloop = message
         c = deloop.split()
         print (c)
-        resp =  requests.delete('https://172.16.100.97/restconf/data/ietf-interfaces:interfaces/interface='f'{c[0]}', auth=basicauth, headers=headers, verify=False)
-        return deloop + "fue borrada exitosamente"
+        resp =  requests.delete('https://'+direccion_equipo+'/restconf/data/ietf-interfaces:interfaces/interface=Loopback'f'{c[0]}', auth=basicauth, headers=headers, verify=False)
+        print(resp)
+        return "La loopback "+deloop +" fue borrada exitosamente."
 
 
 ############################Ver Interfaces############################
@@ -133,7 +153,7 @@ class VerInterfces(Command):
         print(datos_loopback)
         
         requests.packages.urllib3.disable_warnings()
-        api_url = "https://172.16.100.97/restconf/data/ietf-interfaces:interfaces"
+        api_url = "https://"+direccion_equipo+"/restconf/data/ietf-interfaces:interfaces"
         
         resp = requests.get(api_url, auth=basicauth, headers=headers, verify=False)
         print(resp)
