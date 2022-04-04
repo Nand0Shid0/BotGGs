@@ -33,8 +33,8 @@ def Nombre():
 def crear_loopback():
 
 	x = input(str("ingresa numero de loopback: "))
-	ip = input(str("ingresa direccion ip la de loopback: "))
-	mask = input(str("ingresa mascara de loopback: "))
+	#ip = input(str("ingresa direccion ip la de loopback: "))
+	#mask = input(str("ingresa mascara de loopback: "))
 
 	m = manager.connect(host="192.168.0.23",port=830,username="cisco",password="cisco123!",hostkey_verify=False)
 
@@ -49,8 +49,8 @@ def crear_loopback():
 	    <ip>
 	     <address>
 	      <primary>
-	       <address>"""+ip+"""</address>
-	       <mask>"""+mask+"""</mask>
+	       <address></address>
+	       <mask></mask>
 	      </primary>
 	     </address>
 	    </ip>
@@ -90,8 +90,8 @@ def borrar_loopback():
 	print(xml.dom.minidom.parseString(netconf_reply.xml).toprettyxml())
 
 
-Nombre()
-#crear_loopback()
+#Nombre()
+crear_loopback()
 #borrar_loopback()
 
 
