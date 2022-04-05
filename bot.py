@@ -11,9 +11,11 @@ bot.add_command(Menu())
 
 #Clases de configuracion.
 
+bot.add_command(ShowName())
 bot.add_command(CambiarNombre())
 bot.add_command(CrearLoopback())
 bot.add_command(VerInterfces())
 bot.add_command(BorrarLoopback())
 bot.add_command(Esp32())
+bot.add_command(AddUser())
 bot.run()
