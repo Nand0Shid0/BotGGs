@@ -28,7 +28,7 @@ class Menu(Command):
     def execute(self, message, attachment_actions, activity):
         mensaje ="""
 
-         Hello and welcome to the BotAfedo!
+         Hello and welcome to the BotGGs!
          Below is a small manual for the use of this bot, enjoy it!
 
         **Add user**
@@ -89,7 +89,7 @@ class Menu(Command):
 class CambiarNombre(Command):
     def __init__(self):
         super().__init__(
-            command_keyword="change name".lower()
+            command_keyword="change_name".lower()
         )
     
     def execute(self, message, attachment_actions, activity):
@@ -117,7 +117,7 @@ class CambiarNombre(Command):
 class CrearLoopback(Command):
     def __init__(self):
         super().__init__(
-            command_keyword="create loopback".lower(),
+            command_keyword="create_loopback".lower(),
         )
     def execute(self, message, attachment_actions, activity):
         try:
@@ -162,7 +162,7 @@ class CrearLoopback(Command):
 class BorrarLoopback(Command):
     def __init__(self):
         super().__init__(
-            command_keyword="delete loopback".lower(),
+            command_keyword="delete_loopback".lower(),
         )
     def execute(self, message, attachment_actions, activity):
         try:
@@ -178,7 +178,7 @@ class BorrarLoopback(Command):
 class ShowName(Command):
     def __init__(self):
         super().__init__(
-            command_keyword="SHow_Name".lower(),
+            command_keyword="Show_Name".lower(),
         )
     def execute(self, message, attachment_actions, activity):
         try:
@@ -193,7 +193,7 @@ class ShowName(Command):
 class VerInterfces(Command):
     def __init__(self):
         super().__init__(
-            command_keyword="show interface".lower(),
+            command_keyword="show_interface".lower(),
         )
     def execute(self, message, attachment_actions, activity):
         try:
@@ -238,7 +238,7 @@ class Esp32(Command):
 class AddUser(Command):
     def __init__(self):
         super().__init__(
-            command_keyword="Add user".lower(),
+            command_keyword="Add_user".lower(),
         )
     def execute(self, message, attachment_actions, activity):
         email = message.split()
