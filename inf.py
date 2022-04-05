@@ -235,6 +235,8 @@ class Esp32(Command):
             led_r = requests.get(url = 'http://172.16.100.27/', params = payload_led)
             return "LED OFF" 
 
+
+######### AÑADIR USUARIO ##########
 class AddUser(Command):
     def __init__(self):
         super().__init__(
@@ -254,8 +256,3 @@ class AddUser(Command):
         params = {'roomId': room_id, 'personEmail': personEmail}
         res = requests.post(url, headers=headers, json=params)
         print(res.json())
-        
-
-
-
-
